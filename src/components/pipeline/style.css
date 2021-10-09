@@ -1,0 +1,142 @@
+.pipeline {
+  display: flex;
+  margin-bottom: 8px;
+  box-shadow: 0px 0px 1px rgba(67, 68, 69, 0.3),
+    0px 1px 1px rgba(67, 68, 69, 0.3);
+  padding: 16px 12px;
+  border-radius: 6px;
+}
+
+.pipeline__status {
+  margin-right: 8px;
+}
+
+.pipeline__id {
+  margin-bottom: 8px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.pipeline__id--success {
+  color: var(--green-500);
+}
+
+.pipeline__id--in-progress {
+  color: var(--orange-500);
+}
+
+.pipeline__id--fail {
+  color: var(--red-500);
+}
+
+.pipeline__title {
+  margin-bottom: 8px;
+  font-size: 15px;
+  line-height: 20px;
+}
+
+.pipeline__branch {
+  display: inline-block;
+  margin-bottom: 8px;
+}
+
+.pipeline__hash {
+  display: inline-block;
+  margin-left: 4px;
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pipeline__status {
+  height: 16px;
+  width: 16px;
+}
+
+.pipeline__author {
+  margin-bottom: 8px;
+}
+
+.pipeline__info {
+  border-bottom: 1px solid var(--blue-grey-50);
+}
+
+.pipeline__data {
+  flex: 1;
+}
+
+.pipeline__timestamps {
+  display: flex;
+  margin-top: 8px;
+  min-width: 120px;
+}
+
+.pipeline__date {
+  margin-right: 8px;
+}
+
+.pipeline__date,
+.pipeline__period,
+.pipeline__author,
+.pipeline__branch {
+  display: flex;
+  flex-direction: row;
+}
+
+.pipeline__icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 4px;
+}
+
+.pipeline__gray {
+  opacity: 0.65;
+}
+
+@media screen and (min-width: 856px) {
+  .pipeline__id,
+  .pipeline__title {
+    display: inline-block;
+  }
+
+  .pipeline__title {
+    margin-left: 4px;
+  }
+
+  .pipeline__meta {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .pipeline__author {
+    margin-left: 8px;
+  }
+
+  .pipeline__data {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .pipeline__info {
+    border: none;
+  }
+
+  .pipeline__branch,
+  .pipeline__author {
+    margin-bottom: 0;
+  }
+
+  .pipeline__timestamps {
+    flex-direction: column;
+  }
+
+  .pipeline__date {
+    margin-bottom: 12px;
+  }
+
+  .pipeline__status {
+    width: 24px;
+    height: 24px;
+  }
+}

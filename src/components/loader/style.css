@@ -1,0 +1,18 @@
+.loader {
+  border-radius: 50%;
+  border-top: 1px solid #000;
+  border-right: 1px solid #000;
+  animation-name: spin;
+  animation-duration: 700ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

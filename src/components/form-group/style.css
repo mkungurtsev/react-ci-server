@@ -1,0 +1,22 @@
+.form-group {
+}
+
+.form-group--indentation-sm {
+  margin-bottom: 12px;
+}
+
+.form-group--indentation-md {
+  margin-bottom: 18px;
+}
+
+.form-group--indentation-lg {
+  margin-bottom: 24px;
+}
+
+.form-group__title {
+  margin-bottom: 8px;
+}
+
+.form-group__title--required {
+  color: var(--red-500);
+}

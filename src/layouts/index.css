@@ -1,0 +1,57 @@
+@font-face {
+  font-family: "YS Text";
+  font-weight: 400;
+  font-style: normal;
+  font-stretch: normal;
+  src: url(//yastatic.net/s3/home/fonts/ys/1/text-regular.woff2) format("woff2"),
+    url(//yastatic.net/s3/home/fonts/ys/1/text-regular.woff) format("woff");
+}
+@font-face {
+  font-family: "YS Text";
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: normal;
+  src: url(//yastatic.net/s3/home/fonts/ys/1/text-medium.woff2) format("woff2"),
+    url(//yastatic.net/s3/home/fonts/ys/1/text-medium.woff) format("woff");
+}
+@font-face {
+  font-family: "YS Text";
+  font-weight: 700;
+  font-style: normal;
+  font-stretch: normal;
+  src: url(//yastatic.net/s3/home/fonts/ys/1/text-bold.woff2) format("woff2"),
+    url(//yastatic.net/s3/home/fonts/ys/1/text-bold.woff) format("woff");
+}
+
+body {
+  margin: 0;
+  color: #000;
+  font-size: 13px;
+  line-height: 16px;
+  font-family: "YS Text", "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  --blue-grey-500: #7f8285;
+  --blue-grey-50: #f0f2f3;
+  --red-600: #e00000;
+  --color-bg-action: #ffcc00;
+  --color-bg-action-hovered: #f2c200;
+  --color-action-focus: #b38f00;
+  --color-bg-disabled: #f2f2f2;
+  --color-bg-control: #e6e6e6;
+  --color-bg-control-hovered: #dbdbdb;
+  --color-control-focus: #b3b3b3;
+  --red-500: #ff3333;
+  --orange-500: #ff9a00;
+  --green-500: #00b341;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+* {
+  box-sizing: border-box;
+}

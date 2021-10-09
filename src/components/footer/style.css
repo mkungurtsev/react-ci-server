@@ -1,0 +1,36 @@
+.footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background-color: var(--blue-grey-50);
+}
+
+.footer__links {
+  margin-bottom: 8px;
+}
+
+.footer__links > a {
+  margin-right: 12px;
+}
+
+.footer__links > a:last-child {
+  margin-right: 0;
+}
+
+.footer__copyright {
+  color: var(--blue-grey-500);
+}
+
+@media screen and (min-width: 856px) {
+  .footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 8px 100px;
+  }
+
+  .footer__links {
+    margin-bottom: 0;
+  }
+}

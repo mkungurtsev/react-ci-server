@@ -1,0 +1,15 @@
+.welcome-page {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.welcome-page__image {
+  margin-bottom: 32px;
+}
+
+.welcome-page__description {
+  margin-bottom: 24px;
+}
