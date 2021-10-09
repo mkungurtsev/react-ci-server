@@ -15,7 +15,7 @@ const Header = ({
   appearance,
   settingsButton = defaultButtonProps,
   runButton = defaultButtonProps,
-  addBuild = () => void 0,
+  addBuild = Promise.resolve(),
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [fetching, setFetching] = useState(false);
@@ -24,12 +24,10 @@ const Header = ({
   const onSubmit = (event) => {
     event.preventDefault();
     setFetching(true);
-
-    setTimeout(() => {
-      addBuild(buildName);
+    addBuild(buildName).then((res) => {
       setModalVisible(false);
       setFetching(false);
-    }, 1000);
+    });
   };
 
   return (

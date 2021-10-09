@@ -1,56 +1,72 @@
-const LS_KEYS = {
-  repo: "repo",
-  command: "command",
-  branch: "branch",
-  sync: "sync",
-};
-
 const actions = {
-  setRepo: "set_repo",
-  setCommand: "set_command",
-  setBranch: "set_branch",
-  setSync: "set_sync",
   submitStarted: "submit_started",
   submitSucceeded: "submit_succeeded",
   submitFailed: "submit_failed",
+  clearErrors: "clear_errors",
 };
 
 export const actionCreators = {
-  setRepo: (payload) => ({ type: actions.setRepo, payload }),
-  setCommand: (payload) => ({ type: actions.setCommand, payload }),
-  setBranch: (payload) => ({ type: actions.setBranch, payload }),
-  setSync: (payload) => ({ type: actions.setSync, payload }),
   submitStarted: () => ({ type: actions.submitStarted }),
-  submitSucceeded: () => ({ type: actions.submitSucceeded }),
+  submitSucceeded: (payload) => ({ type: actions.submitSucceeded, payload }),
   submitFailed: () => ({ type: actions.submitFailed }),
+  clearErrors: () => ({ type: actions.clearErrors }),
 };
 
-export const getStateFromLocalStorage = () => ({
-  repo: localStorage.getItem(LS_KEYS["repo"]) || "",
-  command: localStorage.getItem(LS_KEYS["command"]) || "",
-  branch: localStorage.getItem(LS_KEYS["branch"]) || "",
-  sync: localStorage.getItem(LS_KEYS["sync"]) || "",
+export const saveSettings = (settings) => (dispatch) =>
+  new Promise((res, rej) => {
+    dispatch(actionCreators.submitStarted());
+
+    setTimeout(() => {
+      if (settings.command === "error") {
+        dispatch(actionCreators.submitFailed());
+        rej();
+
+        return;
+      }
+
+      res(settings);
+      dispatch(actionCreators.submitSucceeded(settings));
+    }, 1000);
+  });
+
+const initialState = {
+  repo: "",
+  command: "",
+  branch: "",
+  sync: "",
   submitting: false,
   submitFailed: false,
-});
+};
 
-export const reducer = (state, action) => {
+const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case actions.setRepo:
-      return { ...state, repo: action.payload };
-    case actions.setCommand:
-      return { ...state, command: action.payload };
-    case actions.setBranch:
-      return { ...state, branch: action.payload };
-    case actions.setSync:
-      return { ...state, sync: action.payload };
     case actions.submitStarted:
       return { ...state, submitting: true };
+
     case actions.submitSucceeded:
-      return { ...state, submitting: false, submitFailed: false };
+      return {
+        ...state,
+        ...action.payload,
+        submitting: false,
+        submitFailed: false,
+      };
+
     case actions.submitFailed:
-      return { ...state, submitting: false, submitFailed: true };
+      return {
+        ...state,
+        submitting: false,
+        submitFailed: true,
+      };
+
+    case actions.clearErrors:
+      return {
+        ...state,
+        submitFailed: false,
+      };
+
     default:
       return state;
   }
 };
+
+export default reducer;

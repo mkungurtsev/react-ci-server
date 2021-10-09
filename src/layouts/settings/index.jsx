@@ -1,40 +1,38 @@
-import React, { useReducer } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory, Link } from "react-router-dom";
+import { connect } from "react-redux";
 import Title from "../../components/title";
 import Button from "../../components/button";
 import FormGroup from "../../components/form-group";
 import Input from "../../components/input";
 import Notification from "../../components/notification";
-import {
-  reducer,
-  getStateFromLocalStorage,
-  actionCreators,
-} from "../../reducers/settings";
+import { saveSettings, actionCreators } from "../../reducers/settings";
 import "./style.css";
 
-const onSubmit = (event, state, dispatch, history) => {
+const onSubmit = (event, history, saveSettings, formData) => {
   event.preventDefault();
-  dispatch(actionCreators.submitStarted());
 
-  if (state.command === "error") {
-    setTimeout(() => dispatch(actionCreators.submitFailed()), 1000);
-    return;
-  }
-
-  Object.keys(state).forEach((key) => {
-    const value = state[key];
-    value ? localStorage.setItem(key, value) : localStorage.removeItem(key);
-  });
-
-  setTimeout(() => {
-    dispatch(actionCreators.submitSucceeded());
-    history.push("/");
-  }, 1000);
+  return saveSettings(formData)
+    .then(() => history.push("/"))
+    .catch(() => void 0);
 };
 
-const Settings = () => {
-  const [state, dispatch] = useReducer(reducer, getStateFromLocalStorage());
+const Settings = ({ saveSettings, clearErrors, settings }) => {
   const history = useHistory();
+  const [formData, setFormData] = useState({
+    repo: settings.repo,
+    command: settings.command,
+    branch: settings.branch,
+    sync: settings.sync,
+  });
+
+  const onFiledChange = (field) => (value) =>
+    setFormData((formData) => ({
+      ...formData,
+      [field]: value,
+    }));
+
+  useEffect(() => clearErrors, []);
 
   return (
     <div>
@@ -47,9 +45,9 @@ const Settings = () => {
 
       <form
         className="settings__form"
-        onSubmit={(event) => onSubmit(event, state, dispatch, history)}
+        onSubmit={(event) => onSubmit(event, history, saveSettings, formData)}
       >
-        {state.submitFailed && (
+        {settings.submitFailed && (
           <Notification status="error" title=" Submit failed" indentation="sm">
             Please, try again later
           </Notification>
@@ -61,8 +59,8 @@ const Settings = () => {
             required
             placeholder="user-name/repo-name"
             withClearButton
-            value={state.repo}
-            onChange={(value) => dispatch(actionCreators.setRepo(value))}
+            value={formData.repo}
+            onChange={onFiledChange("repo")}
           />
         </FormGroup>
 
@@ -72,8 +70,8 @@ const Settings = () => {
             required
             placeholder="yarn start"
             withClearButton
-            value={state.command}
-            onChange={(value) => dispatch(actionCreators.setCommand(value))}
+            value={formData.command}
+            onChange={onFiledChange("command")}
           />
         </FormGroup>
 
@@ -82,8 +80,8 @@ const Settings = () => {
             name="branch"
             placeholder="master"
             withClearButton
-            value={state.branch}
-            onChange={(value) => dispatch(actionCreators.setBranch(value))}
+            value={formData.branch}
+            onChange={onFiledChange("branch")}
           />
         </FormGroup>
 
@@ -94,22 +92,22 @@ const Settings = () => {
               name="sync"
               normalize={(value) => value?.replace(/[^\d.-]/g, "")}
               size={3}
-              value={state.sync}
-              onChange={(value) => dispatch(actionCreators.setSync(value))}
+              value={formData.sync}
+              onChange={onFiledChange("sync")}
             />
             <div>minutes</div>
           </div>
         </FormGroup>
 
         <div className="settings__buttons">
-          <Button type="submit" fetching={state.submitting}>
+          <Button type="submit" fetching={settings.submitting}>
             Save
           </Button>
           <Link to="/">
             <Button
               appearance="secondary"
               className="settings__button--fullwidth"
-              disabled={state.submitting}
+              disabled={settings.submitting}
             >
               Cancel
             </Button>
@@ -120,4 +118,13 @@ const Settings = () => {
   );
 };
 
-export default Settings;
+const mapStateToProps = ({ settings }) => ({
+  settings,
+});
+
+const mapDispatchToProps = {
+  saveSettings,
+  clearErrors: actionCreators.clearErrors,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Settings);
