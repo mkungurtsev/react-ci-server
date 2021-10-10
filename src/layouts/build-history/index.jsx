@@ -1,29 +1,19 @@
-import React, { useState } from "react";
+import React from "react";
+import { connect } from "react-redux";
 import Welcome from "../welcome";
 import Button from "../../components/button";
 import Header from "../../components/header";
 import Pipeline from "../../components/pipeline";
-import { getStateFromLocalStorage } from "../../reducers/settings";
-import {
-  generatePipelines,
-  generatePipeline,
-} from "../../utils/piplineGenerator";
+import { addPipeline, fetchMore } from "../../reducers/pipelines";
 import "./style.css";
 
-const BuildHistory = () => {
-  const data = getStateFromLocalStorage();
-  const dataFilled = data.repo && data.command;
-  const [fecthing, setFetching] = useState(false);
-  const [pipelines, setPipelines] = useState([]);
-
-  if (dataFilled && !pipelines.length) {
-    setPipelines(generatePipelines(5));
-  }
+const BuildHistory = ({ settings, pipelines, addPipeline, fetchMore }) => {
+  const dataFilled = settings.repo && settings.command;
 
   return (
     <div className="build">
       <Header
-        title={dataFilled ? data.repo : "School CI Server"}
+        title={dataFilled ? settings.repo : "School CI Server"}
         settingsButton={{
           show: true,
           withCaption: !dataFilled,
@@ -31,35 +21,22 @@ const BuildHistory = () => {
         runButton={{ show: dataFilled, withCaption: dataFilled }}
         appearance={dataFilled ? "primary" : "secondary"}
         addBuild={(hash) => {
-          setPipelines([
-            generatePipeline({ id: pipelines[0].id + 1, hash }),
-            ...pipelines,
-          ]);
+          return addPipeline({ id: pipelines.items[0].id + 1, hash });
         }}
       />
 
       {dataFilled ? (
         <div>
-          {pipelines.map((pipeline) => (
+          {pipelines.items.map((pipeline) => (
             <Pipeline key={pipeline.id} {...pipeline} />
           ))}
 
           <Button
             appearance="secondary"
-            fetching={fecthing}
+            fetching={pipelines.fetchingMore}
             className="build__more-button"
             onClick={() => {
-              setFetching(true);
-              setTimeout(() => {
-                setPipelines([
-                  ...pipelines,
-                  ...generatePipelines(
-                    5,
-                    pipelines[pipelines.length - 1].id - 1
-                  ),
-                ]);
-                setFetching(false);
-              }, 1000);
+              fetchMore(5, pipelines.items[pipelines.items.length - 1].id - 1);
             }}
           >
             Show more
@@ -72,4 +49,11 @@ const BuildHistory = () => {
   );
 };
 
-export default BuildHistory;
+const mapStateToProps = ({ settings, pipelines }) => ({ settings, pipelines });
+
+const mapDispatchToProps = {
+  addPipeline,
+  fetchMore,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(BuildHistory);
