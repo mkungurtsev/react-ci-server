@@ -1,0 +1,8 @@
+.router-link {
+  color: var(--blue-grey-500);
+  text-decoration: none;
+}
+
+.router-link:hover {
+  color: var(--red-600);
+}

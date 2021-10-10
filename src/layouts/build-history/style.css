@@ -1,0 +1,15 @@
+.build {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.build__more-button {
+  margin-bottom: 16px;
+}
+
+@media screen and (min-width: 856px) {
+  .build__more-button {
+    margin-bottom: 20px;
+  }
+}

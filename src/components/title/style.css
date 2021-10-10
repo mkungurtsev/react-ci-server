@@ -1,0 +1,22 @@
+.title {
+  margin-bottom: 18px;
+  font-size: 18px;
+  line-height: 22px;
+  font-weight: 500;
+  letter-spacing: 0.25px;
+}
+
+.title--primary {
+  color: #000;
+}
+
+.title--secondary {
+  color: var(--blue-grey-500);
+}
+
+@media screen and (min-width: 856px) {
+  .title {
+    font-size: 24px;
+    line-height: 30px;
+  }
+}
